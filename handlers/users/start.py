@@ -15,7 +15,7 @@ async def bot_start(message: types.Message):
     full_name = message.from_user.full_name
     username = message.from_user.username
     telegram_id = message.from_user.id
-    check = create_user(username, full_name, telegram_id)
+    check = create(username, telegram_id, full_name)
     if check == 400:
         language = language_info(telegram_id)
         if language == 'uz':
@@ -24,21 +24,18 @@ async def bot_start(message: types.Message):
         elif language == 'ru':
             await message.answer("✅ Добро пожаловать в главное меню\n"\
             f"🍕 Вкусный пиццы! Вы начинайте заказывать?", reply_markup=main_ru)
-        elif language == 'en':
-            await message.answer("✅ Welcome to the main menu\n"\
-            f"🍕 Delicious pizza! Shall we start ordering?", reply_markup=main_en)
     else:
         await message.answer(f"🇺🇿 Botdan foydalanish uchun o'zingizga qulay tilni tanlang.\n"\
                             f"🇷🇺 Для использования бота выберите удобный для вас язык.\n"\
                             f"🇬🇧 Choose a convenient language for you to use the bot.",
                             reply_markup=choose_language)
-        create_user(username, full_name, telegram_id)
+        create(username, telegram_id, full_name)
         await Language.language.set()
 
 @dp.message_handler(state=Language.language)
 async def set_language_system(message: types.Message, state:FSMContext):
     if message.content_type == 'text':
-        if message.text in ['🇺🇿 O\'zbekcha', '🇷🇺 Русский', '🇬🇧 English']:
+        if message.text in ['🇺🇿 O\'zbekcha', '🇷🇺 Русский']:
             if message.text == '🇺🇿 O\'zbekcha':
                 change_language(telegram_id=message.from_user.id, language='uz')
                 await message.answer("✅ Bosh menyuga xush kelibsiz\n"\
@@ -47,10 +44,6 @@ async def set_language_system(message: types.Message, state:FSMContext):
                 change_language(telegram_id=message.from_user.id, language='ru')
                 await message.answer("✅ Добро пожаловать в главное меню\n"\
                 f"🍕 Вкусный пиццы! Вы начинайте заказывать?", reply_markup=main_ru)
-            elif message.text == '🇬🇧 English':
-                change_language(telegram_id=message.from_user.id, language='en')
-                await message.answer("✅ Welcome to the main menu\n"\
-                f"🍕 Delicious pizza! Shall we start ordering?", reply_markup=main_en)
             await state.finish()
         else:
             await message.answer(" 🇺🇿 Botdan foydalanish uchun o'zingizga qulay tilni tanlang.\n"\
