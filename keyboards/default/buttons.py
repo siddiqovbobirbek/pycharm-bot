@@ -50,9 +50,9 @@ def product_or_subcategory(category, language, product=None):
                 button.add(InlineKeyboardButton(text=f"{i['name']} - {i['price']}",
                                                 callback_data=basket_callback.new(action='add', product=i['id'])))
         button.row(
-            InlineKeyboardButton(text="-", callback_data=callback.new('decrease')),
+            InlineKeyboardButton(text=f"-", callback_data=callback.new('decrease')),
             InlineKeyboardButton(text="1", callback_data="1"),
-            InlineKeyboardButton(text="+", callback_data=callback.new('increase'))
+            InlineKeyboardButton(text=f"+", callback_data=callback.new('increase'))
         )
         if language == 'ru':
             # add to basket
@@ -70,9 +70,9 @@ def product_or_subcategory(category, language, product=None):
 def to_product(language, product, count):
     button = InlineKeyboardMarkup()
     button.row(
-        InlineKeyboardButton(text="-", callback_data=callback.new('decrease')),
+        InlineKeyboardButton(text=f"-", callback_data=callback.new('decrease')),
         InlineKeyboardButton(text=f"{count}", callback_data=count),
-        InlineKeyboardButton(text="+", callback_data=callback.new('increase'))
+        InlineKeyboardButton(text=f"+", callback_data=callback.new('increase'))
     )
     if language == 'ru':
         button.add(InlineKeyboardButton(text="📥 Добавить в корзину",

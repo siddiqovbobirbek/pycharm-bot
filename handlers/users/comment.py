@@ -11,7 +11,7 @@ class Comment(StatesGroup):
 
 
 ############# Write  Comment  Button Type  #################
-@dp.message_handler(text=["Sharh qoldiring", "Оставить комментарий"])
+@dp.message_handler(text=["✍️ Sharh qoldiring", "✍️ Оставить отзыв"])
 async def begin(message:types.Message):
     language = language_info(message.from_user.id)
     if language == 'uz':

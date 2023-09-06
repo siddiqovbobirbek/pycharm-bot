@@ -7,18 +7,18 @@ from api import *
 from aiogram.types.input_media import InputMediaPhoto
 from aiogram.utils import callback_data
 
-@dp.message_handler(text=["Otmetit", "Bekor qilish"])
+@dp.message_handler(text=["❌ Отменить", "❌ Bekor qilish"])
 async def cancelfunction(message: types.Message):
     language = language_info(message.from_user.id)
     if language == "uz":
-        await message.answer("Bosh menyuga xush kelibsiz!\n" \
-                             f"Mazali pitsalar! Buyurtma berishni boshlaysizmi?", reply_markup=main_uz)
+        await message.answer("✅ Bosh menyuga xush kelibsiz\n" \
+                             f"🍕 Mazali pitsalar! Buyurtma berishni boshlaysizmi?", reply_markup=main_uz)
     else:
-        await message.answer("Добро пожаловать в главное меню!\n" \
-                             f"Вкусные пиццы! Начать заказывать?", reply_markup=main_ru)
+        await message.answer("✅ Добро пожаловать в главное меню\n" \
+                             f"🍕 Вкусный пиццы! Вы начинайте заказывать?", reply_markup=main_ru)
 
 
-@dp.message_handler(Text(startswith='Bir daqiqa ...'))
+@dp.message_handler(Text(startswith='⬇️'))
 async def subcategory_product(message: types.Message, state: FSMContext):
     await message.answer("Ok")
     await state.update_data({
@@ -32,15 +32,15 @@ async def subcategory_product(message: types.Message, state: FSMContext):
     sena = "Narxi" if language == 'uz' else "Цена"
     button = ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
     if language == 'uz':
-        button.row(KeyboardButton(text="Orqaga"), KeyboardButton(text="Savat"))
+        button.row(KeyboardButton(text="⬅️ Orqaga"), KeyboardButton(text="📥 Savat"))
     if language == 'ru':
-        button.row(KeyboardButton(text="Назад"), KeyboardButton(text="Корзина"))
+        button.row(KeyboardButton(text="⬅️ Назад"), KeyboardButton(text="📥 Корзина"))
     await message.answer("Pastga", reply_markup=button)
     await message.answer_photo(photo=data['image'], caption=f"<b>{data['name']}</b>\n\n{sena}: {data['price']} {money}",
                                reply_markup=product_button(data=datas, language=language))
 
 
-@dp.message_handler(Text(startswith="Chapga"))
+@dp.message_handler(Text(startswith="⬅️"))
 async def test(message: types.Message, state: FSMContext):
     data = await state.get_data()
     level = data.get('level', None)
@@ -53,11 +53,11 @@ async def test(message: types.Message, state: FSMContext):
 
     if level == "category":
         if language == "uz":
-            await message.answer("Bosh menyuga xush kelibsiz!\n" \
-                                 f"Mazali pitsalar! Buyurtma berishni boshlaysizmi?", reply_markup=main_uz)
+            await message.answer("✅ Bosh menyuga xush kelibsiz\n" \
+                                 f"🍕 Mazali pitsalar! Buyurtma berishni boshlaysizmi?", reply_markup=main_uz)
         else:
-            await message.answer("Добро пожаловать в главное меню!\n" \
-                                 f"Вкусные пиццы! Начать заказывать?", reply_markup=main_ru)
+            await message.answer("✅ Добро пожаловать в главное меню\n" \
+                                 f"🍕 Вкусный пиццы! Вы начинайте заказывать?", reply_markup=main_ru)
 
     elif level == 'product-category':
         await state.update_data({
@@ -70,15 +70,15 @@ async def test(message: types.Message, state: FSMContext):
 
     else:
         if language == "uz":
-            await message.answer("Bosh menyuga xush kelibsiz!\n" \
-                                 f"Mazali pitsalar! Buyurtma berishni boshlaysizmi?", reply_markup=main_uz)
+            await message.answer("✅ Bosh menyuga xush kelibsiz\n" \
+                                 f"🍕 Mazali pitsalar! Buyurtma berishni boshlaysizmi?", reply_markup=main_uz)
         else:
-            await message.answer("Добро пожаловать в главное меню!\n" \
-                                 f"Вкусные пиццы! Начать заказывать?", reply_markup=main_ru)
+            await message.answer("✅ Добро пожаловать в главное меню\n" \
+                                 f"🍕 Вкусный пиццы! Вы начинайте заказывать?", reply_markup=main_ru)
 
 
 ########### Go to Menus ###################
-@dp.message_handler(text=["Меню", "Menyu"])
+@dp.message_handler(text=["📝 Меню", "📝 Menu"])
 async def category(message: types.Message, state: FSMContext):
     await state.update_data({
         "level": "category"
@@ -107,10 +107,10 @@ async def test(message: types.Message, state: FSMContext):
         sena = "Narxi" if language == 'uz' else "Цена"
         button = ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
         if language == 'uz':
-            button.row(KeyboardButton(text="Orqaga"), KeyboardButton(text="Savat"))
+            button.row(KeyboardButton(text="⬅️ Orqaga"), KeyboardButton(text="📥 Savat"))
         if language == 'ru':
-            button.row(KeyboardButton(text="Назад"), KeyboardButton(text="Корзина"))
-        await message.answer("Pastga", reply_markup=button)
+            button.row(KeyboardButton(text="⬅️ Назад"), KeyboardButton(text="📥 Корзина"))
+        await message.answer("️⬇️", reply_markup=button)
         await message.answer_photo(photo=data['image'],
                                    caption=f"<b>{data['name']}</b>\n\n{sena} : {data['price']} {money}",
                                    reply_markub=product_or_subcategory(category=message.text, language=language,

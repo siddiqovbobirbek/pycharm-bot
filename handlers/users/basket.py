@@ -5,7 +5,7 @@ from api import *
 from keyboards.default.buttons import *
 
 #############  See Basket  ###########
-@dp.message_handler(text = ["📊 Мои заказы", "🛒 Корзина", "📊 Buyurtmalarim", "🛒 Savat"])
+@dp.message_handler(text = ["📖 Мои заказы", "📥 Корзина", "📖 Buyurtmalarim", "📥 Savat"])
 async def basket_info(message:types.Message):
     language = language_info(message.from_user.id)
     shop = shop_info(telegram_id=message.from_user.id, language=language)
@@ -23,8 +23,8 @@ async def basket_info(message:types.Message):
 
 
 #############  Basket Query  #################
-@dp.message_handler(basket_callback.filter())
-async def query(call:types.CallbackQuery, callback_data:dict):
+@dp.callback_query_handler(basket_callback.filter())
+async def query(call: types.CallbackQuery, callback_data: dict):
     data = callback_data
     await call.answer(cache_time=60)
     language = language_info(call.from_user.id)

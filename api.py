@@ -7,7 +7,7 @@ import json
 ###### ~~~~ User All Info ~~~~ ######
 
 def all_info(telegram_id):
-    response = requests.post(BASE_URL + '/api/user/', data={
+    response = requests.post(BASE_URL + 'en/api/user/', data={
         'telegram_id': telegram_id
     })
     data = json.loads(response.text)
@@ -15,7 +15,7 @@ def all_info(telegram_id):
 
 ###### ~~~~ Language Info ~~~~ ######
 def language_info(telegram_id):
-    response = requests.post(BASE_URL + '/api/user/', data={'telegram_id': telegram_id})
+    response = requests.post(BASE_URL + 'en/api/user/', data={'telegram_id': telegram_id})
     print(response.text)  # Print the response text for debugging
     data = json.loads(response.text)
     return data['language']
@@ -30,7 +30,7 @@ def get_categories(language):
 
 ###### ~~~~ Get All russian english and uzbek Categories ~~~~ ######
 def get_all_categories():
-    response = requests.get(BASE_URL + '/api/category/')
+    response = requests.get(BASE_URL + 'en/api/category/')
     data = json.loads(response.text)
     category_uz = [i['name_uz'] for i in data]
     category_ru = [i['name_ru'] for i in data]
@@ -70,7 +70,7 @@ def get_product(id, language):
 
 #################### Create User ##################
 def create(name, telegram_id, username):
-    response = requests.post(BASE_URL + '/api/botuser/', data={
+    response = requests.post(BASE_URL + 'en/api/botuser/', data={
         'name': name,
         'telegram_id': telegram_id,
         'username': username
@@ -79,7 +79,7 @@ def create(name, telegram_id, username):
 
 #################### Change Language ##################
 def change_language(telegram_id, language):
-    response = requests.post(BASE_URL + '/api/change/', data={
+    response = requests.post(BASE_URL + 'en/api/change/', data={
         'telegram_id': telegram_id,
         'language': language
     })
@@ -87,7 +87,7 @@ def change_language(telegram_id, language):
 
 #################### Change Phone Number ##################
 def change_phone(telegram_id, phone):
-    response = requests.post(BASE_URL + '/api/phone/', data={
+    response = requests.post(BASE_URL + 'en/api/phone/', data={
         'telegram_id': telegram_id,
         'phone': phone
     })
@@ -101,7 +101,7 @@ def shop_info(language):
 
 #################### Set Order ##################
 def set_order(telegram_id, product, quantity):
-    response = requests.post(BASE_URL + '/api/set_order/', data={
+    response = requests.post(BASE_URL + '/en/api/set_order/', data={
         'telegram_id': telegram_id,
         'product': product,
         'quantity': quantity
@@ -111,7 +111,7 @@ def set_order(telegram_id, product, quantity):
 
 #################### Delete Basket ##################
 def delete_basket(telegram_id):
-    response = requests.post(BASE_URL + '/api/delete_basket/', data={
+    response = requests.post(BASE_URL + 'en/api/delete_basket/', data={
         'telegram_id': telegram_id
     })
     data = json.loads(response.text)
@@ -119,7 +119,7 @@ def delete_basket(telegram_id):
 
 #################### Delete Item ##################
 def delete_item(telegram_id, product):
-    response = requests.post(BASE_URL + '/api/delete_item/', data={
+    response = requests.post(BASE_URL + 'en/api/delete_item/', data={
         'telegram_id': telegram_id,
         'product': product
     })

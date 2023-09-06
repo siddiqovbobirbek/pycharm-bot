@@ -10,17 +10,17 @@ async def gotosettings(message:types.Message):
     language = language_info(message.from_user.id)
     if language == 'uz':
         await message.answer("⚙️ Sozlamalar bo'limiga xush kelibsiz!\n\n"
-                             f"uz/ru  Tugmachalar orqali tilni o'zgartirishingiz mumkin.", reply_markup=settings(language))
+                             f"🇺🇿/🇷🇺  Tugmachalar orqali tilni o'zgartirishingiz mumkin.", reply_markup=settings(language))
 
     else:
         await message.answer("⚙️ Добро пожаловать в настройки!\n\n"
-                              f"en/ru Вы можете изменить язык с помощью кнопок.", reply_markup=settings(language))
+                              f"🇺🇿/🇷🇺 Вы можете изменить язык с помощью кнопок.", reply_markup=settings(language))
 
 
 ###########  Select Language  #################
-@dp.message_handler(text=["uz O'zbekcha", "ru Русский"])
+@dp.message_handler(text=["🇺🇿 O'zbekcha", "🇷🇺 Русский"])
 async def change_lang(message:types.Message):
-    if message.text == "uz O'zbekcha":
+    if message.text == "🇺🇿 O'zbekcha":
         change_language(telegram_id=message.from_user.id, language="uz")
         await message.answer(f"Assalomu alaykum, {message.from_user.full_name}, @maxsus2273_bot botiga xush kelibsiz!\n\n" "Ushbu bot orqali mazali pitsalarga buyurtma bera olasiz. Pitsalar manzilingizga tezkor yetkazib beramiz!\n\n" 
                              "Buyurtna berishni boshlaysizmi?", reply_markup=main_uz)
@@ -49,9 +49,9 @@ async def change(message:types.Message):
     language = language_info(message.from_user.id)
     if language == 'uz':
         await message.answer("⚙️ Sozlamalar bo'limiga xush kelibsiz!\n\n"
-                             f"uz/ru  Tugmachalar orqali tilni o'zgartirishingiz mumkin.",
+                             f"🇺🇿/🇷🇺  Tugmachalar orqali tilni o'zgartirishingiz mumkin.",
                              reply_markup=settings(language))
 
     else:
         await message.answer("⚙️ Добро пожаловать в настройки!\n\n"
-                             f"en/ru Вы можете изменить язык с помощью кнопок.", reply_markup=settings(language))
+                             f"🇺🇿/🇷🇺 Вы можете изменить язык с помощью кнопок.", reply_markup=settings(language))
