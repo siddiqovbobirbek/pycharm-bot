@@ -45,3 +45,7 @@ async def comment_get(message:types.Message, state:FSMContext):
             await message.answer("😇 Спасибо за ваш комментарий!")
             await message.answer("✅ Добро пожаловать в главное меню\n" \
                                  f"🍕 Вкусный пиццы! Вы начинайте заказывать?", reply_markup=main_ru)
+        await state.finish()
+
+
+

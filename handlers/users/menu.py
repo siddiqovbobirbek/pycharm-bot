@@ -5,7 +5,10 @@ from aiogram.dispatcher.filters import Text
 from keyboards.default.buttons import *
 from api import *
 from aiogram.types.input_media import InputMediaPhoto
-from aiogram.utils import callback_data
+from aiogram.utils.callback_data import CallbackData
+
+callback = CallbackData("action", "product", "count", "language")
+
 
 @dp.message_handler(text=["❌ Отменить", "❌ Bekor qilish"])
 async def cancelfunction(message: types.Message):
@@ -24,12 +27,18 @@ async def subcategory_product(message: types.Message, state: FSMContext):
     await state.update_data({
         "level": "subcategory"
     })
-    language = language_info(message.from_user.id)
+    language = language_info(telegram_id=message.from_user.id)
     key = message.text[1:]
     datas = subcategory_info(language=language, subcategory=key)
+    print(datas, "ashnaqade")
+    if datas == []:
+        msg = "Mahsulotlar topilmadi" if language == 'uz' else "Товары не найдены"
+        await message.answer(msg)
+        return
     data = datas[0]
+    print(data)
     money = "so'm" if language == 'uz' else "сум"
-    sena = "Narxi" if language == 'uz' else "Цена"
+    sena = "💰 Narxi: " if language == 'uz' else "💰 Цена:    "
     button = ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
     if language == 'uz':
         button.row(KeyboardButton(text="⬅️ Orqaga"), KeyboardButton(text="📥 Savat"))
@@ -96,26 +105,26 @@ async def category(message: types.Message, state: FSMContext):
 async def test(message: types.Message, state: FSMContext):
     language = language_info(message.from_user.id)
     category = category_info(language=language, category=message.text)
+    print("Category", category)
+
     if 'subcategory' in category:
         await message.answer("⬇️", reply_markup=product_or_subcategory(category=message.text, language=language))
     else:
-        await state.update_data({
-            "level": "product-category"
-        })
-        data = category['products'][0]
-        money = "so'm" if language == 'uz' else "сум"
-        sena = "Narxi" if language == 'uz' else "Цена"
-        button = ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
-        if language == 'uz':
-            button.row(KeyboardButton(text="⬅️ Orqaga"), KeyboardButton(text="📥 Savat"))
-        if language == 'ru':
-            button.row(KeyboardButton(text="⬅️ Назад"), KeyboardButton(text="📥 Корзина"))
-        await message.answer("️⬇️", reply_markup=button)
-        await message.answer_photo(photo=data['image'],
-                                   caption=f"<b>{data['name']}</b>\n\n{sena} : {data['price']} {money}",
-                                   reply_markub=product_or_subcategory(category=message.text, language=language,
-                                                                       product=data['id']))
-
+        if 'products' in category and len(category['products']) > 0:
+            data = category['products'][0]
+            money = "so'm" if language == 'uz' else "сум"
+            sena = "Narxi" if language == 'uz' else "Цена"
+            button = ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
+            if language == 'uz':
+                button.row(KeyboardButton(text="⬅️ Orqaga"), KeyboardButton(text="📥 Savat"))
+            if language == 'ru':
+                button.row(KeyboardButton(text="⬅️ Назад"), KeyboardButton(text="📥 Корзина"))
+            await message.answer("️⬇️", reply_markup=button)
+            await message.answer_photo(photo=data['image'],
+                                       caption=f"<b>{data['name']}</b>\n\n{sena} : {data['price']} {money}",
+                                       reply_markup=product_or_subcategory(category=message.text, product=int(data['id'])))
+        else:
+            await message.answer("Mahsulotlar topilmadi.")
 
 ############  Show Product  (Inline Button)  #############
 

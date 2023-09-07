@@ -23,7 +23,7 @@ async def change_lang(message:types.Message):
     if message.text == "🇺🇿 O'zbekcha":
         change_language(telegram_id=message.from_user.id, language="uz")
         await message.answer(f"Assalomu alaykum, {message.from_user.full_name}, @maxsus2273_bot botiga xush kelibsiz!\n\n" "Ushbu bot orqali mazali pitsalarga buyurtma bera olasiz. Pitsalar manzilingizga tezkor yetkazib beramiz!\n\n" 
-                             "Buyurtna berishni boshlaysizmi?", reply_markup=main_uz)
+                             "Buyurtma berishni boshlaysizmi?", reply_markup=main_uz)
     else:
         change_language(telegram_id=message.from_user.id, language="ru")
         await message.answer(
